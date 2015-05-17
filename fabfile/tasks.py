@@ -1,4 +1,5 @@
 from fabric.api import task, local, lcd
+import db
 import os
 ROOT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
@@ -7,7 +8,11 @@ ROOT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 def update_env():
     """ Update current environment with latest python packages """
 
-    # delete pyc files
     with lcd(ROOT_PATH):
+        # delete pyc files
         local("find . -name '*.pyc' -delete")
         local('pip install -r requirements.txt')
+
+    # update cassandra keyspace
+    db.create_keyspace()
+    db.run_migrations()
