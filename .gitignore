@@ -55,3 +55,11 @@ docs/_build/
 
 # PyBuilder
 target/
+
+
+# Angular files
+client/bower_components
+client/dist
+client/node_modules
+.tmp
+.sass-cache
