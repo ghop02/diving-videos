@@ -1,6 +1,6 @@
 import os
 from apiclient.discovery import build
-from lib.models.video import Videos
+from lib.models.videos import Videos
 YOUTUBE_API_SERVICE_NAME = 'youtube'
 YOUTUBE_API_VERSION = 'v3'
 # always return as many videos in each request as possible
@@ -34,21 +34,37 @@ class YoutubeFeed(object):
         for result in results['items']:
             snippet = result['snippet']
             if snippet['resourceId']['kind'] == 'youtube#video':
-                for_video = {
+                video_details = {
                     'id': snippet['resourceId']['videoId'],
                     'source': 'youtube',
                     'description': snippet['title'],
-                    'thumbnail_url': snippet['thumbnails']['high']['url']
+                    'thumbnail_url': snippet['thumbnails']['high']['url'],
                 }
-                videos.append(Videos(**for_video))
+                videos.append(video_details)
         return videos
 
     @classmethod
     def get_videos_from_username(cls, username):
+        """ Queries the Youtube api to get the first 50 uploaded videos
+        from a users uploaded videos
+
+        Arguments:
+            username: String of the youtube username of a user
+
+        Returns:
+            videos: List of Videos models
+        """
+
         api_creds = os.environ.get('YOUTUBE_API_KEY')
         youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
                         developerKey=api_creds)
 
         upload_id = cls._get_upload_playlist_id(youtube, username)
         videos = cls._get_uploaded_videos(youtube, upload_id)
-        return videos
+        for video in videos:
+            video.update({
+                'username': username,
+                'feed_id': upload_id,
+            })
+            print video
+            yield Videos(**video)

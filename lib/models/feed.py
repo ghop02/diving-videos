@@ -1,4 +1,5 @@
-from lib.models.base_model import BaseModel, StringField
+from cassandra.cqlengine import columns
+from cassandra.cqlengine.models import Model
 
 
 class Feed(BaseModel):
