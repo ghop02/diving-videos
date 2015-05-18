@@ -66,5 +66,4 @@ class YoutubeFeed(object):
                 'username': username,
                 'feed_id': upload_id,
             })
-            print video
             yield Videos(**video)
