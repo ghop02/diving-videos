@@ -1,6 +1,8 @@
 from config.application import (
-    GlobalApplicationConfig
+    GlobalApplicationConfig,
+    GlobalLogConfig
 )
+import logging
 
 
 class ApplicationConfig(GlobalApplicationConfig):
@@ -12,3 +14,9 @@ class ApplicationConfig(GlobalApplicationConfig):
         'class': 'SimpleStrategy',
         'replication_factor': 1
     }
+
+
+class LogConfig(GlobalLogConfig):
+    LOG_TO_FILE = True
+    LOG_TO_CONSOLE = True
+    ROOT_LEVEL = logging.DEBUG
