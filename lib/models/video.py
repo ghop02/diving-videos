@@ -1,9 +1,10 @@
-from lib.models.base_model import Model, StringField
+from cassandra.cqlengine import columns
+from cassandra.cqlengine.models import Model
 
 
-class Video(Model):
-    id = StringField()
-    description = StringField()
-    feed_id = StringField()
-    thumbnail_url = StringField()
-    source = StringField()
+class Videos(Model):
+    id = columns.Text(partition_key=True)
+    description = columns.Text(partition_key=True)
+    feed_id = columns.Text()
+    thumbnail_url = columns.Text()
+    source = columns.Text()

@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask
 from config import Ripple
 from config.app_config import init_config
 

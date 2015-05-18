@@ -1,11 +1,6 @@
-from apiclient.discovery import build
 import os
-if __name__ == "__main__":
-    import sys
-    _root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
-    sys.path.append(_root)
-
-from lib.models.video import Video
+from apiclient.discovery import build
+from lib.models.video import Videos
 YOUTUBE_API_SERVICE_NAME = 'youtube'
 YOUTUBE_API_VERSION = 'v3'
 # always return as many videos in each request as possible
@@ -45,8 +40,7 @@ class YoutubeFeed(object):
                     'description': snippet['title'],
                     'thumbnail_url': snippet['thumbnails']['high']['url']
                 }
-                videos.append(Video(for_video))
-        print videos
+                videos.append(Videos(**for_video))
         return videos
 
     @classmethod
@@ -56,10 +50,5 @@ class YoutubeFeed(object):
                         developerKey=api_creds)
 
         upload_id = cls._get_upload_playlist_id(youtube, username)
-        cls._get_uploaded_videos(youtube, upload_id)
-        print upload_id
-        print username
-
-
-if __name__ == "__main__":
-    YoutubeFeed.get_videos_from_username(sys.argv[1])
+        videos = cls._get_uploaded_videos(youtube, upload_id)
+        return videos
