@@ -1,6 +1,6 @@
-from flask import Flask, jsonify, request
+from flask import Flask
 from config import Ripple
-from config.app_config import init_config
+from config.app_config import init_config, init_cassandra
 
 
 def _initialize_flask_app(env):
@@ -24,8 +24,16 @@ def _initialize_flask_app(env):
         return Flask(__name__)
 
 
+def _register_blueprints(app):
+    from api.videos_api import videos
+    app.register_blueprint(videos, url_prefix='/api/v1/videos')
+    return app
+
+
 def create_app(env):
     init_config(env)
+    init_cassandra(env)
 
     app = _initialize_flask_app(env)
+    app = _register_blueprints(app)
     return app

@@ -3,6 +3,7 @@ CREATE TABLE videos (
     source text,
     description text,
     feed_id text,
+    username text,
     thumbnail_url text,
     PRIMARY KEY ((id, source))
 );

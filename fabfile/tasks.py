@@ -12,6 +12,7 @@ def update_env():
         # delete pyc files
         local("find . -name '*.pyc' -delete")
         local('pip install -r requirements.txt')
+        local('pip install -r test_requirements.txt')
 
     # update cassandra keyspace
     db.create_keyspace()

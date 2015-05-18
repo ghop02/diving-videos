@@ -14,7 +14,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -63,3 +62,7 @@ client/dist
 client/node_modules
 .tmp
 .sass-cache
+
+
+# emacs
+\.#*
